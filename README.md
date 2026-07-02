@@ -5,6 +5,7 @@ Monorepo containing **Angular 22** front-end and **.NET 8** back-end.
 ## Structure
 
 ```
+
 trello-clone/
 ├── front-end/          # Angular 22 app (pnpm)
 │   ├── src/            # App source code
@@ -22,11 +23,13 @@ trello-clone/
 ## Setup
 
 ### Prerequisites
+
 - **Node.js** >= 22
 - **pnpm** >= 10
 - **.NET SDK** 8.0+
 
 ### Front-end
+
 ```bash
 pnpm install
 pnpm --filter front-end start
@@ -34,7 +37,9 @@ pnpm --filter front-end start
 ```
 
 ### Back-end
+
 ```bash
+
 dotnet restore back-end/TrelloClone.Api
 dotnet run --project back-end/TrelloClone.Api
 # → http://localhost:5000
