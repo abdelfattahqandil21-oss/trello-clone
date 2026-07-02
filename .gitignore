@@ -6,6 +6,13 @@ out-tsc/
 bazel-out/
 .angular/
 *.log
+coverage/
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
 
 # --- .NET / back-end ---
 bin/
@@ -24,4 +31,16 @@ Thumbs.db
 
 # --- IDE ---
 .idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
 *.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
