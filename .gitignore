@@ -1,0 +1,27 @@
+# --- Node / front-end ---
+node_modules/
+dist/
+tmp/
+out-tsc/
+bazel-out/
+.angular/
+*.log
+
+# --- .NET / back-end ---
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+.vs/
+_ReSharper*/
+*.DotSettings.user
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- IDE ---
+.idea/
+*.sublime-workspace

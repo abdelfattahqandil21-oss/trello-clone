@@ -1,0 +1,16 @@
+{
+  "name": "trello-clone",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.29.3",
+  "scripts": {
+    "front:dev": "pnpm --filter front-end start",
+    "front:build": "pnpm --filter front-end build",
+    "front:test": "pnpm --filter front-end test",
+    "back:dev": "dotnet watch --project back-end/TrelloClone.Api",
+    "back:build": "dotnet build back-end/TrelloClone.Api",
+    "back:test": "dotnet test back-end/TrelloClone.sln",
+    "dev:front": "pnpm front:dev",
+    "dev:back": "pnpm back:dev"
+  }
+}
