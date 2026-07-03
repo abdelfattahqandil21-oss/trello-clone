@@ -1,3 +1,5 @@
+using Scalar.AspNetCore;
+
 namespace TrolleClone
 {
     class Program
@@ -18,6 +20,7 @@ namespace TrolleClone
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();
