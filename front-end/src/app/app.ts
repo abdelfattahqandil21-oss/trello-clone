@@ -12,7 +12,7 @@ interface WeatherForecast {
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.css'
 })
 export class App implements OnInit {
   protected readonly data = signal<WeatherForecast[] | null>(null);
