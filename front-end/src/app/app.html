@@ -1,28 +1,41 @@
-<div class="container">
-  <h1>Weather Forecast</h1>
+<div class="max-w-2xl mx-auto mt-8 p-4">
+  <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
+    <i class="pi pi-sun mr-2 text-yellow-500"></i>
+    Weather Forecast
+  </h1>
 
   @if (data(); as items) {
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>°C</th>
-          <th>°F</th>
-          <th>Summary</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of items; track item.date) {
-          <tr>
-            <td>{{ item.date }}</td>
-            <td>{{ item.temperatureC }}</td>
-            <td>{{ item.temperatureF }}</td>
-            <td>{{ item.summary }}</td>
+    <div class="overflow-x-auto rounded-lg shadow-lg">
+      <table class="w-full border-collapse bg-white">
+        <thead>
+          <tr class="bg-blue-600 text-white">
+            <th class="p-3 text-left font-semibold">Date</th>
+            <th class="p-3 text-left font-semibold">
+              <i class="pi pi-thermometer-half mr-1"></i>°C
+            </th>
+            <th class="p-3 text-left font-semibold">
+              <i class="pi pi-thermometer-half mr-1"></i>°F
+            </th>
+            <th class="p-3 text-left font-semibold">
+              <i class="pi pi-tag mr-1"></i>Summary
+            </th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (item of items; track item.date) {
+            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors">
+              <td class="p-3 text-gray-700">{{ item.date }}</td>
+              <td class="p-3 text-gray-700">{{ item.temperatureC }}</td>
+              <td class="p-3 text-gray-700">{{ item.temperatureF }}</td>
+              <td class="p-3 text-gray-700">{{ item.summary }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   } @else {
-    <p class="loading">Loading...</p>
+    <p class="text-center text-gray-500 text-lg mt-8">
+      <i class="pi pi-spin pi-spinner mr-2"></i>Loading...
+    </p>
   }
 </div>
