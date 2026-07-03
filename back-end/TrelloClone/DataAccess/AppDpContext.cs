@@ -1,10 +1,10 @@
-﻿namespace TrelloClone.DataAccess
+﻿namespace TrelloClone.DataAccess;
+
+public class AppDpContext : IdentityDbContext<AppUser>
 {
-    public class AppDpContext : DbContext
+    public AppDpContext(DbContextOptions<AppDpContext> options) : base(options)
     {
-        public AppDpContext(DbContextOptions<AppDpContext> options) : base(options)
-        {
-        }
-        public DbSet<AppUser> Users { get; set; }
     }
+
+    public DbSet<Board> Boards => Set<Board>();
 }
