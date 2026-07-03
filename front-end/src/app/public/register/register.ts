@@ -1,42 +1,136 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { form, FormField, FormRoot, required, email, minLength } from '@angular/forms/signals';
+import { TranslationService } from '../../core/services/translation.service';
+import { ThemeSwitcher } from '../../shared/components/theme-switcher/theme-switcher';
+import { LangSwitcher } from '../../shared/components/lang-switcher/lang-switcher';
+
+interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink],
+  imports: [RouterLink, FormField, FormRoot, ThemeSwitcher, LangSwitcher],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-surface-secondary p-4">
-      <div class="w-full max-w-sm bg-surface rounded-xl shadow-lg p-8">
+    <div class="min-h-screen flex items-center justify-center bg-[var(--bg-page)] p-4 relative">
+      <div class="absolute top-4 end-4 flex items-center gap-1 z-10">
+        <app-theme-switcher />
+        <app-lang-switcher />
+      </div>
+      <div class="w-full max-w-sm">
         <div class="text-center mb-8">
-          <i class="pi pi-trello text-4xl text-brand-600"></i>
-          <h1 class="text-2xl font-bold text-text-primary mt-2">TreClone</h1>
-          <p class="text-text-muted text-sm">Create your account</p>
+          <div class="w-14 h-14 bg-brand-primary rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-brand-primary/25">
+            <i class="pi pi-trello text-2xl text-white"></i>
+          </div>
+          <h1 class="text-2xl font-bold text-text-primary mt-4">TreClone</h1>
+          <p class="text-text-secondary text-sm mt-1">{{ translation.translate('إنشاء حساب جديد', 'Create your account') }}</p>
         </div>
 
-        <form class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-text-secondary mb-1">Name</label>
-            <input type="text" class="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Your name" />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-text-secondary mb-1">Email</label>
-            <input type="email" class="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="you@example.com" />
-          </div>
-          <div>
-            <label class="block text-sm font-medium text-text-secondary mb-1">Password</label>
-            <input type="password" class="w-full px-3 py-2 rounded-lg border border-border bg-surface text-text-primary focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="••••••••" />
-          </div>
-          <button type="submit" class="w-full py-2.5 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 transition-colors">
-            Sign Up
-          </button>
-        </form>
+        <div class="bg-[var(--bg-card)] rounded-2xl shadow-[var(--shadow-card)] p-8">
+          <form [formRoot]="f">
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-text-secondary mb-1.5">{{ translation.translate('الاسم', 'Name') }}</label>
+                <div class="relative">
+                  <i class="pi pi-user absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-sm"></i>
+                  <input
+                    [formField]="f.name"
+                    type="text"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-border bg-surface text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary transition-all text-sm"
+                    [placeholder]="translation.translate('اسمك', 'Your name')"
+                  />
+                </div>
+                @if (f.name().touched() && f.name().invalid()) {
+                  @for (err of f.name().errors(); track err.kind) {
+                    <p class="text-red-500 text-xs mt-1">{{ translation.translate('الاسم مطلوب', err.message ?? 'Name is required') }}</p>
+                  }
+                }
+              </div>
 
-        <p class="text-center text-sm text-text-muted mt-6">
-          Already have an account?
-          <a routerLink="/login" class="text-brand-600 hover:underline">Sign in</a>
-        </p>
+              <div>
+                <label class="block text-sm font-medium text-text-secondary mb-1.5">{{ translation.translate('البريد الإلكتروني', 'Email') }}</label>
+                <div class="relative">
+                  <i class="pi pi-envelope absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-sm"></i>
+                  <input
+                    [formField]="f.email"
+                    type="email"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-border bg-surface text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary transition-all text-sm"
+                    placeholder="you@example.com"
+                  />
+                </div>
+                @if (f.email().touched() && f.email().invalid()) {
+                  @for (err of f.email().errors(); track err.kind) {
+                    <p class="text-red-500 text-xs mt-1">{{ translation.translate('البريد الإلكتروني مطلوب', err.message ?? 'Email is required') }}</p>
+                  }
+                }
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-text-secondary mb-1.5">{{ translation.translate('كلمة المرور', 'Password') }}</label>
+                <div class="relative">
+                  <i class="pi pi-lock absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-sm"></i>
+                  <input
+                    [formField]="f.password"
+                    type="password"
+                    class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-border bg-surface text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-brand-primary/30 focus:border-brand-primary transition-all text-sm"
+                    placeholder="••••••••"
+                  />
+                </div>
+                @if (f.password().touched() && f.password().invalid()) {
+                  @for (err of f.password().errors(); track err.kind) {
+                    <p class="text-red-500 text-xs mt-1">{{ translation.translate('كلمة المرور مطلوبة', err.message ?? 'Password is required') }}</p>
+                  }
+                }
+              </div>
+
+              <button
+                type="submit"
+                [disabled]="f().submitting()"
+                class="w-full py-2.5 bg-brand-primary text-white rounded-xl font-medium hover:bg-brand-accent transition-all text-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                @if (f().submitting()) {
+                  <i class="pi pi-spin pi-spinner mr-1"></i>
+                  {{ translation.translate('جاري...', 'Creating account...') }}
+                } @else {
+                  {{ translation.translate('إنشاء حساب', 'Sign Up') }}
+                }
+              </button>
+            </div>
+          </form>
+
+          <p class="text-center text-sm text-text-secondary mt-6">
+            {{ translation.translate('لديك حساب بالفعل؟', 'Already have an account?') }}
+            <a routerLink="/login" class="text-brand-primary font-medium hover:underline">{{ translation.translate('تسجيل دخول', 'Sign in') }}</a>
+          </p>
+        </div>
       </div>
     </div>
   `
 })
-export class Register {}
+export class Register {
+  private readonly router = inject(Router);
+  protected readonly translation = inject(TranslationService);
+
+  readonly model = signal<RegisterData>({ name: '', email: '', password: '' });
+
+  readonly f = form(this.model, (p) => {
+    required(p.name, { message: 'Name is required' });
+    required(p.email, { message: 'Email is required' });
+    email(p.email, { message: 'Enter a valid email' });
+    required(p.password, { message: 'Password is required' });
+    minLength(p.password, 6, { message: 'Min 6 characters' });
+  }, {
+    submission: {
+      action: async () => {
+        this.router.navigate(['/boards']);
+      },
+      onInvalid: (field) => {
+        const first = field().errorSummary()[0];
+        first?.fieldTree().focusBoundControl();
+      },
+    },
+  });
+}
