@@ -19,4 +19,30 @@
     <PackageReference Include="Scalar.AspNetCore" Version="2.16.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Controllers\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Views\" />
+    <Folder Include="Areas\Chat\Controllers\" />
+    <Folder Include="Areas\Chat\Data\" />
+    <Folder Include="Areas\Chat\Models\" />
+    <Folder Include="Areas\Chat\Views\" />
+    <Folder Include="Areas\Customer\Controllers\" />
+    <Folder Include="Areas\Customer\Data\" />
+    <Folder Include="Areas\Customer\Models\" />
+    <Folder Include="Areas\Customer\Views\" />
+    <Folder Include="Areas\Identity\Controllers\" />
+    <Folder Include="Areas\Identity\Data\" />
+    <Folder Include="Areas\Identity\Models\" />
+    <Folder Include="Areas\Identity\Views\" />
+    <Folder Include="Models\" />
+    <Folder Include="DataAccess\" />
+    <Folder Include="DTOs\" />
+    <Folder Include="Areas\" />
+    <Folder Include="Services\" />
+    <Folder Include="Utilities\" />
+    <Folder Include="Repository\" />
+  </ItemGroup>
+
 </Project>
