@@ -1,4 +1,4 @@
-namespace TrolleClone
+namespace TrelloClone
 {
     class Program
     {
@@ -18,6 +18,7 @@ namespace TrolleClone
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();
