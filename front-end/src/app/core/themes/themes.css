@@ -1,0 +1,171 @@
+/* src/assets/main.css */
+@import "tailwindcss";
+@import "primeicons/primeicons.css";
+
+@variant dark (&:where([data-theme="dark"] *));
+
+/* ============================================
+   FONTS — Variable @font-face
+   ============================================ */
+/* @font-face {
+  font-family: 'Cairo';
+  src: url('/assets/fonts/Cairo/Cairo-VariableFont_slnt,wght.ttf') format('truetype-variations');
+  font-weight: 200 1000;
+  font-display: swap;
+} */
+
+/* @font-face {
+  font-family: 'Noto Kufi Arabic';
+  src: url('/assets/fonts/Noto_Kufi_Arabic/NotoKufiArabic-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 200 1000;
+  font-display: swap;
+} */
+
+/* ============================================
+   BRAND TOKENS — Single Source of Truth
+   ============================================ */
+@theme {
+  /* --- Brand Colors --- */
+  --color-brand-primary:   oklch(0.4418 0.168 268.57); /* #2e46ae — الأزرق الأساسي */
+  --color-brand-secondary: oklch(44% 0.18 271);         /* #3b5ddb — أزرق فاتح للـ hover */
+  --color-brand-accent:    oklch(0.355 0.1621 218.1);   /* #1a2f8a — أزرق غامق للـ CTA */
+  --color-brand-danger:    oklch(0.637 0.2053 16.6); /* #EF4444 */
+  --color-brand-success:   oklch(0.726 0.0919 131.1); /* #22C55E */
+
+  /* --- Neutral Scale --- */
+  --color-surface-50:  oklch(98.83% 0.003 28.9); /* #fafafa */
+  --color-surface-100: oklch(97.33% 0.003 28.9); /* #f5f5f5 */
+  --color-surface-200: oklch(92.49% 0.003 28.9); /* #e5e5e5 */
+  --color-surface-700: oklch(37.27% 0.001 28.9); /* #404040 */
+  --color-surface-800: oklch(26.95% 0.001 28.9); /* #262626 */
+  --color-surface-900: oklch(20.53% 0.001 28.9); /* #171717 */
+  --color-surface-950: oklch(14.53% 0.000  0.0); /* #0a0a0a */
+
+  /* --- Typography --- */
+  --font-sans: 'Cairo', 'Noto Kufi Arabic', sans-serif;
+  --font-display: 'Cairo', sans-serif;
+
+  /* --- Border Radius --- */
+  --radius-card: 12px;
+  --radius-btn:  8px;
+
+}
+
+/* ============================================
+   SEMANTIC TOKENS — Light / Dark
+   ============================================ */
+:root {
+  color-scheme: light;
+
+  --bg-page:        oklch(94.92% 0.003 28.9);   /* #ededed */
+  --bg-card:        oklch(100% 0 0);             /* #ffffff */
+  --bg-muted:       oklch(97.33% 0.003 28.9);   /* surface-100 */
+
+  --text-primary:   oklch(10% 0 0);              /* أسود نقي للضوء */
+  --text-secondary: oklch(37.27% 0.001 28.9);   /* surface-700 */
+  --text-inverse:   oklch(100% 0 0);            /* #ffffff */
+
+  --border-default: oklch(92.49% 0.003 28.9);   /* surface-200 */
+
+  --primary:      var(--color-brand-primary);
+  --accent:       var(--color-brand-accent);
+
+  --shadow-card:
+    0 1px 3px 0  oklch(0% 0 0 / 0.08),
+    0 1px 2px -1px oklch(0% 0 0 / 0.08);
+
+  /* Map lines — light theme */
+  /* --map-line-1:         oklch(0.4418 0.168 268.57 / 0.55);
+  --map-line-2:         oklch(0.4418 0.168 268.57 / 0.45);
+  --map-line-3:         oklch(0.4418 0.168 268.57 / 0.40);
+  --map-line-4:         oklch(0.4418 0.168 268.57 / 0.25);
+  --map-station-fill:   oklch(0.4418 0.168 268.57 / 0.35);
+  --map-station-stroke: oklch(0.4418 0.168 268.57 / 0.50);
+  --map-station-center:  oklch(0.4418 0.168 268.57 / 0.65);
+  --map-train:          oklch(0.4418 0.168 268.57 / 0.70);
+  --map-glow:           oklch(0.4418 0.168 268.57 / 0.35); */
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-page:        oklch(14.53% 0 0);           /* surface-950 */
+  --bg-card:        oklch(20.53% 0.001 28.9);    /* surface-900 */
+  --bg-muted:       oklch(26.95% 0.001 28.9);    /* surface-800 */
+
+  --text-primary:   oklch(98% 0 0);               /* أبيض نقي للظلام */
+  --text-secondary: oklch(92.49% 0.003 28.9);    /* surface-200 */
+  --text-inverse:   oklch(20.53% 0.001 28.9);    /* surface-900 */
+
+  --border-default: oklch(37.27% 0.001 28.9);    /* surface-700 */
+
+  --primary:      var(--color-brand-primary);
+  --accent:       var(--color-brand-accent);
+
+  /* DatePicker — dark override للمتغيرات اللي templates بتستخدمها بدون dark: */
+  --color-dp-selected-bg:       var(--color-brand-primary);   /* brand-primary في الدارك */
+  --color-dp-selected-text:     oklch(98% 0 0);              /* أبيض */
+  --color-dp-panel-bg:          oklch(20.53% 0.001 28.9);    /* surface-900 */
+  --color-dp-panel-border:      oklch(37.27% 0.001 28.9);    /* surface-700 */
+  --color-dp-header-bg:         var(--color-brand-primary);   /* brand-primary */
+  --color-dp-day-text:          oklch(97.33% 0.003 28.9);    /* surface-100 */
+  --color-dp-day-outside-text:  oklch(55% 0 0);              /* رمادي غامق */
+  --color-dp-day-hover-bg:      oklch(100% 0 0 / 0.08);      /* أبيض 8% */
+  --color-dp-weekday-text:      oklch(92.49% 0.003 28.9);    /* surface-200 */
+  --color-dp-today-bg:          oklch(0.4418 0.168 268.57 / 0.15);  /* brand-primary 15% */
+  --color-dp-today-text:        var(--color-brand-secondary); /* brand-secondary */
+  --color-dp-today-border:      var(--color-brand-secondary); /* brand-secondary */
+  --color-dp-focus-ring:        var(--color-brand-secondary); /* brand-secondary */
+  --color-dp-disabled-text:     oklch(40% 0 0);              /* رمادي غامق */
+
+  --shadow-card:
+    0 1px 3px 0  oklch(0% 0 0 / 0.40),
+    0 1px 2px -1px oklch(0% 0 0 / 0.40);
+
+  /* Map lines — dark theme */
+  --map-line-1:         oklch(100% 0 0 / 0.50);
+  --map-line-2:         oklch(100% 0 0 / 0.45);
+  --map-line-3:         oklch(100% 0 0 / 0.40);
+  --map-line-4:         oklch(100% 0 0 / 0.25);
+  --map-station-fill:   oklch(100% 0 0 / 0.30);
+  --map-station-stroke: oklch(100% 0 0 / 0.50);
+  --map-station-center: oklch(100% 0 0 / 0.65);
+  --map-train:          oklch(100% 0 0 / 0.70);
+  --map-glow:           oklch(100% 0 0 / 0.25);
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 18px;
+}
+
+
+/* View Transition API — circular theme switch */
+::view-transition-old(root) {
+  animation: 400ms ease-out both theme-out;
+}
+::view-transition-new(root) {
+  animation: 400ms ease-out both theme-in;
+}
+
+@keyframes theme-in {
+  from {
+    clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+  }
+  to {
+    clip-path: circle(var(--max-radius, 100%) at var(--click-x, 50%) var(--click-y, 50%));
+  }
+}
+@keyframes theme-out {
+  from {
+    clip-path: circle(var(--max-radius, 100%) at var(--click-x, 50%) var(--click-y, 50%));
+  }
+  to {
+    clip-path: circle(0% at var(--click-x, 50%) var(--click-y, 50%));
+  }
+}
