@@ -10,6 +10,16 @@ namespace TrelloClone
 
             // Add services to the container.
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
@@ -22,6 +32,8 @@ namespace TrelloClone
                 app.MapOpenApi();
                 app.MapScalarApiReference();
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 
