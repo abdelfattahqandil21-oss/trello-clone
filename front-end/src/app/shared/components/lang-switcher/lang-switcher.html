@@ -1,7 +1,7 @@
 <button
-  class="flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:bg-surface-hover transition-colors cursor-pointer border-none bg-transparent text-sm font-medium"
+  class="w-8 h-8 flex items-center justify-center rounded-lg text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-all cursor-pointer border-none bg-transparent"
   (click)="toggle($event)"
+  title="{{ translation.translate('English', 'العربية') }}"
 >
-  <i class="pi pi-globe text-base"></i>
-  <span>{{ translation.translate('English', 'العربية') }}</span>
+  <i class="pi pi-globe"></i>
 </button>

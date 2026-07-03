@@ -6,16 +6,15 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script>
-    (function() {
-      var theme = localStorage.getItem('app_theme');
-      if (theme === 'dark' || theme === 'light') {
+    <script>
+      (function() {
+        var theme = localStorage.getItem('transit-theme');
+        if (theme !== 'dark' && theme !== 'light') {
+          theme = 'dark';
+        }
         document.documentElement.setAttribute('data-theme', theme);
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    })();
-  </script>
+      })();
+    </script>
 </head>
 <body>
   <app-root></app-root>

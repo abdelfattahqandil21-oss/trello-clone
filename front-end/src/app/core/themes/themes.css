@@ -1,8 +1,4 @@
-/* src/assets/main.css */
-@import "tailwindcss";
-@import "primeicons/primeicons.css";
-
-@variant dark (&:where([data-theme="dark"] *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* ============================================
    FONTS — Variable @font-face
@@ -48,6 +44,20 @@
   /* --- Border Radius --- */
   --radius-card: 12px;
   --radius-btn:  8px;
+
+  /* --- Semantic Aliases (for existing utility classes) --- */
+  --color-surface: oklch(100% 0 0);
+  --color-surface-secondary: oklch(97.33% 0.003 28.9);
+  --color-surface-hover: oklch(92.49% 0.003 28.9);
+  --color-text-primary: oklch(10% 0 0);
+  --color-text-secondary: oklch(37.27% 0.001 28.9);
+  --color-text-muted: oklch(55% 0 0);
+  --color-border: oklch(92.49% 0.003 28.9);
+  --color-border-light: oklch(97.33% 0.003 28.9);
+  --color-success: oklch(0.726 0.0919 131.1);
+  --color-warning: #f59e0b;
+  --color-error: oklch(0.637 0.2053 16.6);
+  --color-info: #3b82f6;
 
 }
 
@@ -121,6 +131,20 @@
   --shadow-card:
     0 1px 3px 0  oklch(0% 0 0 / 0.40),
     0 1px 2px -1px oklch(0% 0 0 / 0.40);
+
+  /* --- Semantic Aliases (dark overrides) --- */
+  --color-surface: var(--bg-card);
+  --color-surface-secondary: var(--bg-muted);
+  --color-surface-hover: oklch(37.27% 0.001 28.9);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: oklch(55% 0 0);
+  --color-border: var(--border-default);
+  --color-border-light: oklch(37.27% 0.001 28.9);
+  --color-success: oklch(0.726 0.0919 131.1);
+  --color-warning: #f59e0b;
+  --color-error: oklch(0.637 0.2053 16.6);
+  --color-info: #3b82f6;
 
   /* Map lines — dark theme */
   --map-line-1:         oklch(100% 0 0 / 0.50);
