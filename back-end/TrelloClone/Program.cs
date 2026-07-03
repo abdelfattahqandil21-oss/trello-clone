@@ -1,3 +1,5 @@
+using Scalar.AspNetCore;
+
 namespace TrelloClone
 {
     class Program
