@@ -1,27 +1,10 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../environments/environment';
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit {
-  protected readonly data = signal<WeatherForecast[] | null>(null);
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.http.get<WeatherForecast[]>(`${environment.apiUrl}/WeatherForecast`).subscribe(res => {
-      this.data.set(res);
-    });
-  }
-}
+export class App {}
