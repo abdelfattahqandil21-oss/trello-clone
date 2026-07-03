@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TrelloClone.Controllers
+namespace TrolleClone.Controllers
 {
     [ApiController]
     [Route("[controller]")]
