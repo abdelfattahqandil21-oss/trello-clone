@@ -7,6 +7,45 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Areas\Chat\Data\**" />
+	  <Compile Remove="Areas\Chat\Models\**" />
+	  <Compile Remove="Areas\Chat\Views\**" />
+	  <Compile Remove="Areas\Customer\Data\**" />
+	  <Compile Remove="Areas\Customer\Models\**" />
+	  <Compile Remove="Areas\Customer\Views\**" />
+	  <Compile Remove="Areas\Identity\Data\**" />
+	  <Compile Remove="Areas\Identity\Models\**" />
+	  <Compile Remove="Areas\Identity\Views\**" />
+	  <Content Remove="Areas\Chat\Data\**" />
+	  <Content Remove="Areas\Chat\Models\**" />
+	  <Content Remove="Areas\Chat\Views\**" />
+	  <Content Remove="Areas\Customer\Data\**" />
+	  <Content Remove="Areas\Customer\Models\**" />
+	  <Content Remove="Areas\Customer\Views\**" />
+	  <Content Remove="Areas\Identity\Data\**" />
+	  <Content Remove="Areas\Identity\Models\**" />
+	  <Content Remove="Areas\Identity\Views\**" />
+	  <EmbeddedResource Remove="Areas\Chat\Data\**" />
+	  <EmbeddedResource Remove="Areas\Chat\Models\**" />
+	  <EmbeddedResource Remove="Areas\Chat\Views\**" />
+	  <EmbeddedResource Remove="Areas\Customer\Data\**" />
+	  <EmbeddedResource Remove="Areas\Customer\Models\**" />
+	  <EmbeddedResource Remove="Areas\Customer\Views\**" />
+	  <EmbeddedResource Remove="Areas\Identity\Data\**" />
+	  <EmbeddedResource Remove="Areas\Identity\Models\**" />
+	  <EmbeddedResource Remove="Areas\Identity\Views\**" />
+	  <None Remove="Areas\Chat\Data\**" />
+	  <None Remove="Areas\Chat\Models\**" />
+	  <None Remove="Areas\Chat\Views\**" />
+	  <None Remove="Areas\Customer\Data\**" />
+	  <None Remove="Areas\Customer\Models\**" />
+	  <None Remove="Areas\Customer\Views\**" />
+	  <None Remove="Areas\Identity\Data\**" />
+	  <None Remove="Areas\Identity\Models\**" />
+	  <None Remove="Areas\Identity\Views\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.9" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.9" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
@@ -16,6 +55,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.OpenApi" Version="2.7.5" />
 		<PackageReference Include="Scalar.AspNetCore" Version="2.16.9" />
 	</ItemGroup>
 
@@ -24,23 +64,10 @@
 		<Folder Include="Areas\Admin\Data\" />
 		<Folder Include="Areas\Admin\Models\" />
 		<Folder Include="Areas\Admin\Views\" />
-		<Folder Include="Areas\Chat\Controllers\" />
-		<Folder Include="Areas\Chat\Data\" />
-		<Folder Include="Areas\Chat\Models\" />
-		<Folder Include="Areas\Chat\Views\" />
-		<Folder Include="Areas\Customer\Controllers\" />
-		<Folder Include="Areas\Customer\Data\" />
-		<Folder Include="Areas\Customer\Models\" />
-		<Folder Include="Areas\Customer\Views\" />
-		<Folder Include="Areas\Identity\Controllers\" />
-		<Folder Include="Areas\Identity\Data\" />
-		<Folder Include="Areas\Identity\Models\" />
-		<Folder Include="Areas\Identity\Views\" />
 		<Folder Include="DTOs\" />
-		<Folder Include="Areas\" />
-		<Folder Include="Services\" />
+		<Folder Include="Repository\IRepository\" />
+		<Folder Include="Services\IServices\" />
 		<Folder Include="Utilities\" />
-		<Folder Include="Repository\" />
 	</ItemGroup>
 
 </Project>
