@@ -5,7 +5,5 @@ global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.EntityFrameworkCore;
 
-
-
 global using TrelloClone.Models;
 global using TrelloClone.DataAccess;

@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using TrelloClone.DataAccess;
 using TrelloClone.Models;
+using TrelloClone.Services;
 
 namespace TrelloClone;
 
@@ -55,12 +56,14 @@ class Program
         {
             options.AddDefaultPolicy(policy =>
             {
-                policy.AllowAnyOrigin()
+                policy.WithOrigins("http://localhost:4200")
                       .AllowAnyHeader()
-                      .AllowAnyMethod();
+                      .AllowAnyMethod()
+                      .AllowCredentials();
             });
         });
 
+        builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
 
