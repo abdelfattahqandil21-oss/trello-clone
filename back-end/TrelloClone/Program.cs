@@ -64,6 +64,40 @@ class Program
         });
 
         builder.Services.AddScoped<IAuthService, AuthService>();
+
+        builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        builder.Services.AddScoped<IRepository<WorkspaceMember>, Repository<WorkspaceMember>>();
+        builder.Services.AddScoped<IRepository<BoardMember>, Repository<BoardMember>>();
+        builder.Services.AddScoped<IRepository<CardMember>, Repository<CardMember>>();
+        builder.Services.AddScoped<IRepository<CardLabel>, Repository<CardLabel>>();
+        builder.Services.AddScoped<IWorkspaceRepository, WorkspaceRepository>();
+        builder.Services.AddScoped<IBoardRepository, BoardRepository>();
+        builder.Services.AddScoped<IBoardListRepository, BoardListRepository>();
+        builder.Services.AddScoped<ICardRepository, CardRepository>();
+        builder.Services.AddScoped<ILabelRepository, LabelRepository>();
+        builder.Services.AddScoped<IChecklistRepository, ChecklistRepository>();
+        builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+        builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
+        builder.Services.AddScoped<IActivityLogRepository, ActivityLogRepository>();
+        builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+        builder.Services.AddScoped<IInvitationRepository, InvitationRepository>();
+        builder.Services.AddScoped<IChecklistItemRepository, ChecklistItemRepository>();
+        builder.Services.AddScoped<ICardWatcherRepository, CardWatcherRepository>();
+
+        builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
+        builder.Services.AddScoped<IBoardService, BoardService>();
+        builder.Services.AddScoped<IBoardListService, BoardListService>();
+        builder.Services.AddScoped<ICardService, CardService>();
+        builder.Services.AddScoped<ILabelService, LabelService>();
+        builder.Services.AddScoped<IChecklistService, ChecklistService>();
+        builder.Services.AddScoped<IChecklistItemService, ChecklistItemService>();
+        builder.Services.AddScoped<ICommentService, CommentService>();
+        builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+        builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
+        builder.Services.AddScoped<INotificationService, NotificationService>();
+        builder.Services.AddScoped<IInvitationService, InvitationService>();
+        builder.Services.AddScoped<ICardWatcherService, CardWatcherService>();
+
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
 

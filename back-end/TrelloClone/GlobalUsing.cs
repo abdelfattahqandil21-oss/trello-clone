@@ -7,3 +7,8 @@ global using Microsoft.EntityFrameworkCore;
 
 global using TrelloClone.Models;
 global using TrelloClone.DataAccess;
+global using TrelloClone.Repository;
+global using TrelloClone.Repository.IRepository;
+global using TrelloClone.DTOs;
+global using TrelloClone.Services;
+global using TrelloClone.Services.IServices;
