@@ -171,7 +171,7 @@ public class AppDpContext : IdentityDbContext<AppUser>
             e.HasOne(cl => cl.Label)
                 .WithMany(l => l.CardLabels)
                 .HasForeignKey(cl => cl.LabelId)
-                .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
 
             e.HasIndex(cl => new { cl.CardId, cl.LabelId }).IsUnique();
         });
@@ -241,7 +241,7 @@ public class AppDpContext : IdentityDbContext<AppUser>
             e.HasOne(al => al.Card)
                 .WithMany(c => c.ActivityLogs)
                 .HasForeignKey(al => al.CardId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Restrict);
 
             e.HasOne(al => al.ActorUser)
                 .WithMany(u => u.ActivityLogs)

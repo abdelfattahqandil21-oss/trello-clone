@@ -19,6 +19,12 @@ public enum BoardRole
     Member,
     Viewer
 }
+
+public enum MemberRole
+{
+    Admin,
+    Member
+}
 public enum NotificationType
 {
     CardAssigned,

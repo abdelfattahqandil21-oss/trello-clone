@@ -5,7 +5,7 @@ public class WorkspaceMember
     public int Id { get; set; }
     public int WorkspaceId { get; set; }
     public string UserId { get; set; } = string.Empty;
-    public MemberRole Role { get; set; }
+    public WorkspaceRole Role { get; set; }
     public DateTime JoinedAt { get; set; }
 
     public Workspace Workspace { get; set; } = null!;
