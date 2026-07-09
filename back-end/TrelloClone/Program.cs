@@ -1,16 +1,17 @@
-using System.Text;
+using TrelloClone.Utilities.DBInitilization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
+using System.Text;
 using TrelloClone.DataAccess;
 using TrelloClone.Models;
-using TrelloClone.Services;
+using TrelloClone.Utilities;
 
 namespace TrelloClone;
 
-class Program
+public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -97,11 +98,15 @@ class Program
         builder.Services.AddScoped<INotificationService, NotificationService>();
         builder.Services.AddScoped<IInvitationService, InvitationService>();
         builder.Services.AddScoped<ICardWatcherService, CardWatcherService>();
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IDBInitilizer, DBInitilizer>();
 
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();
 
         var app = builder.Build();
+
+       
 
         if (app.Environment.IsDevelopment())
         {
@@ -112,6 +117,13 @@ class Program
         app.UseCors();
         app.UseAuthentication();
         app.UseAuthorization();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var initializer = scope.ServiceProvider.GetRequiredService<IDBInitilizer>();
+            await initializer.Initialize();
+        }
+
         app.MapControllers();
         app.Run();
     }

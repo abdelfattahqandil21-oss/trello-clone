@@ -79,7 +79,7 @@ public class AuthService : IAuthService
             return new AuthResponse { Success = false, Message = "Email not verified. Please verify your email first." };
 
         var (accessToken, expiresAt) = await GenerateAccessTokenAsync(user);
-        var refreshToken = await GenerateRefreshTokenAsync(user);
+        var (refreshToken, refreshExpiresAt) = await GenerateRefreshTokenAsync(user);
 
         return new AuthResponse
         {
@@ -87,6 +87,8 @@ public class AuthService : IAuthService
             Message = "Login successful.",
             AccessToken = accessToken,
             ExpiresAt = expiresAt,
+            RefreshToken = refreshToken,
+            RefreshTokenExpiresAt = refreshExpiresAt,
             UserId = user.Id,
             Email = user.Email,
             Username = user.UserName
@@ -135,7 +137,7 @@ public class AuthService : IAuthService
         await _context.SaveChangesAsync();
 
         var (accessToken, expiresAt) = await GenerateAccessTokenAsync(storedToken.User);
-        var newRefreshToken = await GenerateRefreshTokenAsync(storedToken.User);
+        var (newRefreshToken, refreshExpiresAt) = await GenerateRefreshTokenAsync(storedToken.User);
 
         return new AuthResponse
         {
@@ -143,6 +145,8 @@ public class AuthService : IAuthService
             Message = "Token refreshed successfully.",
             AccessToken = accessToken,
             ExpiresAt = expiresAt,
+            RefreshToken = newRefreshToken,
+            RefreshTokenExpiresAt = refreshExpiresAt,
             UserId = storedToken.User.Id,
             Email = storedToken.User.Email,
             Username = storedToken.User.UserName
@@ -254,12 +258,13 @@ public class AuthService : IAuthService
         return (tokenHandler.WriteToken(token), expiresAt);
     }
 
-    private async Task<string> GenerateRefreshTokenAsync(AppUser user)
+    private async Task<(string token, DateTime expiresAt)> GenerateRefreshTokenAsync(AppUser user)
     {
         var randomBytes = new byte[64];
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomBytes);
         var token = Convert.ToBase64String(randomBytes);
+        var expiresAt = DateTime.UtcNow.AddDays(7);
 
         var refreshToken = new RefreshToken
         {
@@ -269,12 +274,12 @@ public class AuthService : IAuthService
             IsUsed = false,
             IsRevoked = false,
             CreatedAt = DateTime.UtcNow,
-            ExpiresAt = DateTime.UtcNow.AddDays(7)
+            ExpiresAt = expiresAt
         };
 
         _context.RefreshTokens.Add(refreshToken);
         await _context.SaveChangesAsync();
 
-        return token;
+        return (token, expiresAt);
     }
 }

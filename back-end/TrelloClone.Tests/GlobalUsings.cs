@@ -1,0 +1,15 @@
+global using Xunit;
+global using FluentAssertions;
+global using Moq;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.Extensions.Logging;
+global using Microsoft.Extensions.Options;
+global using TrelloClone.Models;
+global using TrelloClone.Services;
+global using TrelloClone.Services.IServices;
+global using TrelloClone.DTOs;
+global using TrelloClone.DataAccess;
+global using TrelloClone.Repository;
+global using TrelloClone.Repository.IRepository;
+global using Microsoft.EntityFrameworkCore;
+global using System.Security.Claims;

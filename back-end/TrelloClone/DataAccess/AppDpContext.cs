@@ -6,24 +6,24 @@ public class AppDpContext : IdentityDbContext<AppUser>
     {
     }
 
-    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
-    public DbSet<Workspace> Workspaces => Set<Workspace>();
-    public DbSet<WorkspaceMember> WorkspaceMembers => Set<WorkspaceMember>();
-    public DbSet<Board> Boards => Set<Board>();
-    public DbSet<BoardMember> BoardMembers => Set<BoardMember>();
-    public DbSet<BoardList> CardLists => Set<BoardList>();
-    public DbSet<Card> Cards => Set<Card>();
-    public DbSet<CardMember> CardMembers => Set<CardMember>();
-    public DbSet<Label> Labels => Set<Label>();
-    public DbSet<CardLabel> CardLabels => Set<CardLabel>();
-    public DbSet<Checklist> Checklists => Set<Checklist>();
-    public DbSet<ChecklistItem> ChecklistItems => Set<ChecklistItem>();
-    public DbSet<Comment> Comments => Set<Comment>();
-    public DbSet<Notification> Notifications => Set<Notification>();
-    public DbSet<ActivityLog> ActivityLogs => Set<ActivityLog>();
-    public DbSet<Attachment> Attachments => Set<Attachment>();
-    public DbSet<Invitation> Invitations => Set<Invitation>();
-    public DbSet<CardWatcher> CardWatchers => Set<CardWatcher>();
+    public virtual DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public virtual DbSet<Workspace> Workspaces => Set<Workspace>();
+    public virtual DbSet<WorkspaceMember> WorkspaceMembers => Set<WorkspaceMember>();
+    public virtual DbSet<Board> Boards => Set<Board>();
+    public virtual DbSet<BoardMember> BoardMembers => Set<BoardMember>();
+    public virtual DbSet<BoardList> CardLists => Set<BoardList>();
+    public virtual DbSet<Card> Cards => Set<Card>();
+    public virtual DbSet<CardMember> CardMembers => Set<CardMember>();
+    public virtual DbSet<Label> Labels => Set<Label>();
+    public virtual DbSet<CardLabel> CardLabels => Set<CardLabel>();
+    public virtual DbSet<Checklist> Checklists => Set<Checklist>();
+    public virtual DbSet<ChecklistItem> ChecklistItems => Set<ChecklistItem>();
+    public virtual DbSet<Comment> Comments => Set<Comment>();
+    public virtual DbSet<Notification> Notifications => Set<Notification>();
+    public virtual DbSet<ActivityLog> ActivityLogs => Set<ActivityLog>();
+    public virtual DbSet<Attachment> Attachments => Set<Attachment>();
+    public virtual DbSet<Invitation> Invitations => Set<Invitation>();
+    public virtual DbSet<CardWatcher> CardWatchers => Set<CardWatcher>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

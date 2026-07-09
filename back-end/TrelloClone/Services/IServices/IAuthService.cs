@@ -1,6 +1,6 @@
 using TrelloClone.DTOs;
 
-namespace TrelloClone.Services;
+namespace TrelloClone.Services.IServices;
 
 public interface IAuthService
 {
