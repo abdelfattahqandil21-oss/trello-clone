@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TrelloClone.DTOs;
@@ -16,17 +17,20 @@ public class AuthService : IAuthService
     private readonly AppDpContext _context;
     private readonly IConfiguration _configuration;
     private readonly ILogger<AuthService> _logger;
+    private readonly IEmailSender _emailSender;
 
     public AuthService(
         UserManager<AppUser> userManager,
         AppDpContext context,
         IConfiguration configuration,
-        ILogger<AuthService> logger)
+        ILogger<AuthService> logger,
+        IEmailSender emailSender)
     {
         _userManager = userManager;
         _context = context;
         _configuration = configuration;
         _logger = logger;
+        _emailSender = emailSender;
     }
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
@@ -62,12 +66,19 @@ public class AuthService : IAuthService
                 Errors = result.Errors.Select(e => e.Description).ToList()
             };
 
-        await _userManager.AddToRoleAsync(user, "Member");
+        await _userManager.AddToRoleAsync(user, SD.CUSTOMER_ROLE);
 
         var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var frontendUrl = _configuration["App:FrontendUrl"] ?? "http://localhost:4200";
+        var verifyLink = $"{frontendUrl}/verify-email?email={Uri.EscapeDataString(request.Email)}&token={Uri.EscapeDataString(emailToken)}";
 
+        await _emailSender.SendEmailAsync(
+            request.Email,
+            "Verify your email - TrelloClone",
+            $"<h2>Welcome to TrelloClone!</h2><p>Please verify your email by clicking <a href='{verifyLink}'>here</a>.</p>"
+        );
 
-        _logger.LogInformation("User {Email} registered. Verification token: {Token}", request.Email, emailToken);
+        _logger.LogInformation("User {Email} registered. Verification email sent.", request.Email);
 
         return new AuthResponse
         {
@@ -227,8 +238,16 @@ public class AuthService : IAuthService
             return new AuthResponse { Success = true, Message = "If the email exists and is not verified, a new verification link has been sent." };
 
         var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        var frontendUrl = _configuration["App:FrontendUrl"] ?? "http://localhost:4200";
+        var verifyLink = $"{frontendUrl}/verify-email?email={Uri.EscapeDataString(request.Email)}&token={Uri.EscapeDataString(emailToken)}";
 
-        _logger.LogInformation("Verification email resent to {Email}. Token: {Token}", request.Email, emailToken);
+        await _emailSender.SendEmailAsync(
+            request.Email,
+            "Verify your email - TrelloClone",
+            $"<h2>Verify your email</h2><p>Click <a href='{verifyLink}'>here</a> to verify your email.</p>"
+        );
+
+        _logger.LogInformation("Verification email resent to {Email}.", request.Email);
 
         return new AuthResponse
         {

@@ -100,6 +100,7 @@ public class Program
         builder.Services.AddScoped<ICardWatcherService, CardWatcherService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IDBInitilizer, DBInitilizer>();
+        builder.Services.AddScoped<IEmailSender, EmailSender>();
 
         builder.Services.AddControllers();
         builder.Services.AddOpenApi();

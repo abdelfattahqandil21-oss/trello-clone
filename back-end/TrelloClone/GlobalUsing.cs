@@ -13,3 +13,4 @@ global using TrelloClone.DTOs;
 global using TrelloClone.Services;
 global using TrelloClone.Services.IServices;
 global using TrelloClone.Utilities.DBInitilization;
+global using Microsoft.AspNetCore.Identity.UI.Services;
