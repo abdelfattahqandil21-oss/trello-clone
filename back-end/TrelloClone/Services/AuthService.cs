@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TrelloClone.DTOs;
+using TrelloClone.Utilities;
 
 namespace TrelloClone.Services;
 
@@ -30,17 +31,26 @@ public class AuthService : IAuthService
 
     public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
     {
-        var existingUser = await _userManager.FindByEmailAsync(request.Email);
-        if (existingUser != null)
+        var existingEmail = await _userManager.FindByEmailAsync(request.Email);
+        if (existingEmail != null)
             return new AuthResponse { Success = false, Message = "Email is already registered." };
+
+        var existingUsername = await _userManager.FindByNameAsync(request.Username);
+        if (existingUsername != null)
+            return new AuthResponse { Success = false, Message = "Username is already taken." };
+
+        var now = DateTime.UtcNow;
 
         var user = new AppUser
         {
             UserName = request.Username,
             Email = request.Email,
+            DisplayName = request.Username,
             IsEmailVerified = false,
             IsActive = true,
-            AvatarUrl = string.Empty
+            AvatarUrl = string.Empty,
+            CreatedAt = now,
+            UpdatedAt = now
         };
 
         var result = await _userManager.CreateAsync(user, request.Password);
@@ -52,7 +62,10 @@ public class AuthService : IAuthService
                 Errors = result.Errors.Select(e => e.Description).ToList()
             };
 
+        await _userManager.AddToRoleAsync(user, "Member");
+
         var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
 
         _logger.LogInformation("User {Email} registered. Verification token: {Token}", request.Email, emailToken);
 

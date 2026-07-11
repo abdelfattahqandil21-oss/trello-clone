@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TrelloClone.Utilities;
+using System.Security.Claims;
+using TrelloClone.Services.IServices;
 
 namespace TrelloClone.Areas.Identity.Controllers;
 
+[Area("Identity")]
 [ApiController]
 public class AccountsController : ControllerBase
 {
@@ -24,7 +26,7 @@ public class AccountsController : ControllerBase
         _cardService = cardService;
     }
 
-    private string UserId => User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value;
+    private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
     private void SetRefreshTokenCookie(string refreshToken, DateTime expiresAt)
     {
