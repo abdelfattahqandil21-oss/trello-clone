@@ -11,4 +11,6 @@ public interface IWorkspaceService
     Task AddMemberAsync(int workspaceId, string userId, WorkspaceRole role);
     Task RemoveMemberAsync(int workspaceId, string userId);
     Task UpdateMemberRoleAsync(int workspaceId, string userId, WorkspaceRole role);
+
+    Task<IEnumerable<WorkspaceResponse>> GetAllWorkspacesAsync();
 }

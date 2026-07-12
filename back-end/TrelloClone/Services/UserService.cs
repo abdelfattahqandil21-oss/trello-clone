@@ -111,6 +111,63 @@ public class UserService : IUserService
         return users;
     }
 
+    public async Task<IEnumerable<AdminUserResponse>> GetAllUsersAsync()
+    {
+        var users = await _userManager.Users
+            .OrderByDescending(u => u.CreatedAt)
+            .ToListAsync();
+
+        return users.Select(u => new AdminUserResponse(
+            u.Id, u.UserName!, u.Email!, u.DisplayName,
+            u.AvatarUrl, u.IsEmailVerified, u.IsActive, u.CreatedAt
+        ));
+    }
+
+    public async Task<AdminUserResponse> GetUserByIdAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id)
+            ?? throw new KeyNotFoundException("User not found");
+
+        return new AdminUserResponse(
+            user.Id, user.UserName!, user.Email!, user.DisplayName,
+            user.AvatarUrl, user.IsEmailVerified, user.IsActive, user.CreatedAt
+        );
+    }
+
+    public async Task DeactivateUserAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id)
+            ?? throw new KeyNotFoundException("User not found");
+
+        user.IsActive = false;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _userManager.UpdateAsync(user);
+    }
+
+    public async Task ActivateUserAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id)
+            ?? throw new KeyNotFoundException("User not found");
+
+        user.IsActive = true;
+        user.UpdatedAt = DateTime.UtcNow;
+
+        await _userManager.UpdateAsync(user);
+    }
+
+    public async Task HardDeleteUserAsync(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id)
+            ?? throw new KeyNotFoundException("User not found");
+
+        var result = await _userManager.DeleteAsync(user);
+        if (!result.Succeeded)
+            throw new InvalidOperationException(
+                string.Join("; ", result.Errors.Select(e => e.Description))
+            );
+    }
+
     private static UserProfileResponse MapToProfile(AppUser user) => new(
         user.Id, user.UserName!, user.Email!, user.DisplayName,
         user.AvatarUrl, user.IsEmailVerified, user.CreatedAt

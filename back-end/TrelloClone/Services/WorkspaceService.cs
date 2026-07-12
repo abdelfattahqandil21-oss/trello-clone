@@ -115,6 +115,12 @@ public class WorkspaceService : IWorkspaceService
         await _workspaceRepo.SaveChangesAsync();
     }
 
+    public async Task<IEnumerable<WorkspaceResponse>> GetAllWorkspacesAsync()
+    {
+        var workspaces = await _workspaceRepo.GetAllAsync();
+        return workspaces.Select(MapToResponse);
+    }
+
     private static WorkspaceResponse MapToResponse(Workspace w) => new(
         w.Id, w.Name, w.Description, w.Visibility,
         w.OwnerId, w.Owner?.DisplayName ?? w.OwnerId,

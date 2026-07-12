@@ -1,32 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using TrelloClone.DTOs;
 using TrelloClone.Services.IServices;
 
 namespace TrelloClone.Areas.Identity.Controllers;
 
 [Area("Identity")]
 [ApiController]
-public class AccountsController : ControllerBase
+public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly IUserService _userService;
-    private readonly INotificationService _notificationService;
-    private readonly ICardService _cardService;
 
-    public AccountsController(
-        IAuthService authService,
-        IUserService userService,
-        INotificationService notificationService,
-        ICardService cardService)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
-        _userService = userService;
-        _notificationService = notificationService;
-        _cardService = cardService;
     }
-
-    private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
     private void SetRefreshTokenCookie(string refreshToken, DateTime expiresAt)
     {
@@ -77,7 +66,8 @@ public class AccountsController : ControllerBase
     [Authorize]
     public async Task<IActionResult> Logout()
     {
-        await _authService.LogoutAsync(UserId);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        await _authService.LogoutAsync(userId);
         Response.Cookies.Delete("refreshToken");
         return Ok(new { message = "Logged out successfully" });
     }
@@ -131,116 +121,5 @@ public class AccountsController : ControllerBase
 
         var result = await _authService.ResendVerificationAsync(request);
         return Ok(result);
-    }
-
-    [HttpGet("api/users/me")]
-    [Authorize]
-    public async Task<IActionResult> GetProfile()
-    {
-        try
-        {
-            var profile = await _userService.GetProfileAsync(UserId);
-            return Ok(profile);
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
-    }
-
-    [HttpPut("api/users/me")]
-    [Authorize]
-    public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileRequest request)
-    {
-        if (!ModelState.IsValid) return UnprocessableEntity(ModelState);
-
-        try
-        {
-            var profile = await _userService.UpdateProfileAsync(UserId, request);
-            return Ok(profile);
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
-        catch (InvalidOperationException ex)
-        {
-            return Conflict(new { message = ex.Message });
-        }
-    }
-
-    [HttpPatch("api/users/me/avatar")]
-    [Authorize]
-    public async Task<IActionResult> UpdateAvatar([FromBody] UpdateAvatarRequest request)
-    {
-        if (!ModelState.IsValid) return UnprocessableEntity(ModelState);
-
-        try
-        {
-            var profile = await _userService.UpdateAvatarAsync(UserId, request);
-            return Ok(profile);
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
-    }
-
-    [HttpDelete("api/users/me")]
-    [Authorize]
-    public async Task<IActionResult> DeleteAccount()
-    {
-        try
-        {
-            await _userService.DeleteAccountAsync(UserId);
-            return NoContent();
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return NotFound(new { message = ex.Message });
-        }
-    }
-
-    [HttpGet("api/users/me/notifications")]
-    [Authorize]
-    public async Task<IActionResult> GetNotifications()
-    {
-        var notifications = await _notificationService.GetByUserIdAsync(UserId);
-        return Ok(notifications);
-    }
-
-    [HttpPatch("api/users/me/notifications/{id:int}/read")]
-    [Authorize]
-    public async Task<IActionResult> MarkNotificationRead(int id)
-    {
-        await _notificationService.MarkAsReadAsync(id);
-        return NoContent();
-    }
-
-    [HttpPatch("api/users/me/notifications/read-all")]
-    [Authorize]
-    public async Task<IActionResult> MarkAllNotificationsRead()
-    {
-        await _notificationService.MarkAllAsReadAsync(UserId);
-        return NoContent();
-    }
-
-    [HttpGet("api/users/me/cards")]
-    [Authorize]
-    public async Task<IActionResult> GetMyCards()
-    {
-        var cards = await _cardService.GetByMemberIdAsync(UserId);
-        return Ok(cards);
-    }
-
-    [HttpGet("api/users/search")]
-    [Authorize]
-    public async Task<IActionResult> Search([FromQuery] string q)
-    {
-        if (string.IsNullOrWhiteSpace(q))
-            return UnprocessableEntity(new { message = "Query parameter 'q' is required" });
-
-        var results = await _userService.SearchAsync(q, UserId);
-        return Ok(results);
     }
 }
